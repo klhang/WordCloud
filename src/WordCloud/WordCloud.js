@@ -11,7 +11,8 @@ class WordCloud extends React.Component {
         disabled: false
       },
       data: [],
-      fontSize: 100
+      fontSize: 20,
+
 
       //other features
     };
@@ -19,11 +20,13 @@ class WordCloud extends React.Component {
     this.handleStartOver = this.handleStartOver.bind(this);
   }
 
+
+
   fontSizeMapper(word) {
-    return  word.value* 10;
+    return word.value * this.state.fontSize;
   }
 
-  const rotate = word => word.value % 360;
+  // const rotate = word => word.value % 360;
 
   handleTextsSubmit(e) {
     e.preventDefault();
@@ -103,29 +106,58 @@ class WordCloud extends React.Component {
   render(){
     return (
       <div>
-        <div>
-          <TagCloud
-            data={this.state.data}
-            fontSizeMapper={this.fontSizeMapper.bind(this)}
-          />
-        </div>
-
         <br></br>
-          <textarea
-            placeholder="Please paste your text here"
-            onChange={this.updateTextsField()}
-            value={this.state.textarea.text}
-            disabled={this.state.textarea.disabled}
-          />
+          <div class="form-group">
+            <label >Comment:</label>
+            <textarea
+              class="form-control"
+              rows="5"
+              placeholder="Please paste your text here"
+              onChange={this.updateTextsField()}
+              value={this.state.textarea.text}
+              disabled={this.state.textarea.disabled}
+            />
+          </div>
 
-        <button onClick={this.handleTextsSubmit}>
-          <span>Submit</span>
-        </button>
 
-        <button onClick={this.handleStartOver}>
-          <span>Start Over</span>
-        </button>
 
+
+          <button
+            type="submit"
+            className="btn btn-primary mb-2"
+            onClick={this.handleTextsSubmit}>
+            Submit
+          </button>
+          <br></br>
+          <button
+            type="submit"
+            className="btn btn-primary mb-2"
+            onClick={this.handleStartOver}>
+            Start Over
+          </button>
+
+          <br></br>
+          <div className="btn-group">
+            <button type="button" className="btn btn-danger">Action</button>
+            <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span className="sr-only">Toggle Dropdown</span>
+            </button>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" href="#">Action</a>
+              <a className="dropdown-item" href="#">Another action</a>
+              <a className="dropdown-item" href="#">Something else here</a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">Separated link</a>
+            </div>
+          </div>
+
+
+        <div>
+            <TagCloud
+              data={this.state.data}
+              fontSizeMapper={this.fontSizeMapper.bind(this)}
+            />
+        </div>
       </div>
      );
   }
