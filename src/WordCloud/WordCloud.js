@@ -19,6 +19,12 @@ class WordCloud extends React.Component {
     this.handleStartOver = this.handleStartOver.bind(this);
   }
 
+  fontSizeMapper(word) {
+    return  word.value* 10;
+  }
+
+  const rotate = word => word.value % 360;
+
   handleTextsSubmit(e) {
     e.preventDefault();
 
@@ -89,9 +95,10 @@ class WordCloud extends React.Component {
     return e => {
       let newState = { textarea: {text: e.target.value} };
       this.setState(newState);
-
     };
   }
+
+
 
   render(){
     return (
@@ -99,7 +106,7 @@ class WordCloud extends React.Component {
         <div>
           <TagCloud
             data={this.state.data}
-            fontSizeMapper={this.state.fontSize}
+            fontSizeMapper={this.fontSizeMapper.bind(this)}
           />
         </div>
 
@@ -118,6 +125,7 @@ class WordCloud extends React.Component {
         <button onClick={this.handleStartOver}>
           <span>Start Over</span>
         </button>
+
       </div>
      );
   }

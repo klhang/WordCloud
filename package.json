@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.3",
+    "bootstrap": "^3.3.7",
     "materialize-css": "^0.100.2",
     "react": "^16.4.2",
     "react-d3-cloud": "^0.6.0",
