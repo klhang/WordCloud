@@ -3,14 +3,14 @@ import Select from 'react-select';
 import TagCloud from 'react-d3-cloud';
 
 const fontOptions = [
-  { value: '10', label: '10' },
-  { value: '15', label: '15' },
-  { value: '20', label: '20' }
+  { value: 10, label: '10' },
+  { value: 15, label: '15' },
+  { value: 20, label: '20' }
 ];
 const rotateOptions = [
-  { value: 'Horizontal', label: 'Horizontal' },
-  { value: '45°', label: '45°' },
-  { value: '-45°', label: '-45°' }
+  { value: '0', label: '0°' },
+  { value: '45', label: '45°' },
+  { value: '-45', label: '-45°' }
 ];
 const frequencyOptions = [
   { value: 'Most Frequent', label: 'Most Frequent' },
@@ -27,28 +27,32 @@ class WordCloud extends React.Component {
         disabled: false
       },
       data: [],
-      font: 10
+      font: 10,
+      // rotate:
           // rotate: 'Horizontal',
           // frequencySort: 'Most Frequent'
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
-    // this.handleFontOptions = this.handleFontOptions.bind(this);
+    this.handleFontOptions = this.handleFontOptions.bind(this);
     // this.handleRotateOptions = this.handleRotateOptions.bind(this);
     // this.handleFrequencyOptions = this.handleFrequencyOptions.bind(this);
   }
 
-  // handleFontOptions = (selectedOption) => {
-  //   let newState =
-  //   this.setState({ selectedOption });
-  //   console.log(`Option selected:`, selectedOption);
-  // }
+  handleFontOptions = (font) => {
+    this.setState({font: font.value});
+  }
 
 
 
   fontSizeMapper(word) {
     return word.value * this.state.font;
   }
+
+  rotate(word){
+    return -45;
+  }
+
 
   // const rotate = word => word.value % 360;
 
@@ -77,7 +81,6 @@ class WordCloud extends React.Component {
           // rotate: 'Horizontal',
           // frequencySort: 'Most Frequent'
       }
-
     this.setState(newState);
   }
 
@@ -121,20 +124,29 @@ class WordCloud extends React.Component {
     return map;
   }
 
-  updateTextsField() {
+  updateTextsField(e) {
     return e => {
-      let newState = { textarea: {text: e.target.value} };
-      this.setState(newState);
-    };
+      this.setState({textarea: {text: e.target.value}} );
+    }
   }
 
 
 
   render(){
+    const { font } = this.state.font;
+
+
+
     return (
       <div>
+        <Select
+          value={font}
+          onChange={this.handleFontOptions}
+          options={fontOptions}
+        />
+
         <br></br>
-          <div class="form-group">
+          <div className="form-group">
             <label >Comment:</label>
             <textarea
               class="form-control"
@@ -191,6 +203,7 @@ class WordCloud extends React.Component {
             <TagCloud
               data={this.state.data}
               fontSizeMapper={this.fontSizeMapper.bind(this)}
+              rotate={this.rotate.bind(this)}
             />
         </div>
       </div>
