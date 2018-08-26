@@ -27,15 +27,19 @@ class WordCloud extends React.Component {
   }
 
   generateCloud(str){
-    let arr = str.splice(" ");
-    let map = buildMap(arr);
-
-
-
+    let map = buildMap(str);
+    let tags = [];
+    Object.keys(map).forEach(key => {
+      let tag = {"text"  : key,
+                 "value" : map[key]};
+      tags.add(tag);
+    });
+    let newState = merge({}, this.state, {texts: { data: tags}});
   };
 
-  buildHash(arr){
-    map = {};
+  buildHash(str){
+    let arr = str.split(" ");
+    let map = {};
     for (let i = 0; i < arr.length; i++){
       let word = arr[i];
       if (words in map){
