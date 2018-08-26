@@ -1,8 +1,8 @@
 import React from 'react';
 
 class WordCloud extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    // super(props);
     this.state = {
       texts: {
         text: "",
@@ -16,7 +16,7 @@ class WordCloud extends React.Component {
 
   handleTextsSubmit(e) {
     e.preventDefault();
-    this.props.createTextsCloud(this.state.texts).then(() => {
+    this.createTextsCloud(this.state.texts).then(() => {
       let newState = merge({}, this.state, { texts: { text: "" } });
       this.setState(newState);
     });

@@ -1,4 +1,5 @@
 import React from 'react';
+import WordCloud from '../WordCloud/WordCloud';
 
 class App extends React.Component {
   render() {
@@ -6,7 +7,7 @@ class App extends React.Component {
       <div>
         <img className='logo' src={logo} alt='logo'></img>
         <div className='container'>
-          <NewsPanel />
+          <WordCloud />
         </div>
       </div>
     )
