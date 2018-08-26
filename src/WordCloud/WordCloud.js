@@ -1,6 +1,22 @@
 import React from 'react';
-//import { render } from 'react-dom';
+import Select from 'react-select';
 import TagCloud from 'react-d3-cloud';
+
+const fontOptions = [
+  { value: '10', label: '10' },
+  { value: '15', label: '15' },
+  { value: '20', label: '20' }
+];
+const rotateOptions = [
+  { value: 'Horizontal', label: 'Horizontal' },
+  { value: '45°', label: '45°' },
+  { value: '-45°', label: '-45°' }
+];
+const frequencyOptions = [
+  { value: 'Most Frequent', label: 'Most Frequent' },
+  { value: 'Least Frequent', label: 'Least Frequent' },
+];
+
 
 class WordCloud extends React.Component {
   constructor(props) {
@@ -11,19 +27,27 @@ class WordCloud extends React.Component {
         disabled: false
       },
       data: [],
-      fontSize: 20,
-
-
-      //other features
+      font: 10
+          // rotate: 'Horizontal',
+          // frequencySort: 'Most Frequent'
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
+    // this.handleFontOptions = this.handleFontOptions.bind(this);
+    // this.handleRotateOptions = this.handleRotateOptions.bind(this);
+    // this.handleFrequencyOptions = this.handleFrequencyOptions.bind(this);
   }
+
+  // handleFontOptions = (selectedOption) => {
+  //   let newState =
+  //   this.setState({ selectedOption });
+  //   console.log(`Option selected:`, selectedOption);
+  // }
 
 
 
   fontSizeMapper(word) {
-    return word.value * this.state.fontSize;
+    return word.value * this.state.font;
   }
 
   // const rotate = word => word.value % 360;
@@ -35,7 +59,9 @@ class WordCloud extends React.Component {
     let tags = this.generateTags(texts);
     console.log(tags);
 
-    let newState = {  textarea: {text: "please select animation", disabled: true}, data: tags };
+    let newState = { textarea: {text: "please select animation", disabled: true},
+                     data: tags
+                   };
     this.setState(newState);
   }
 
@@ -47,10 +73,11 @@ class WordCloud extends React.Component {
         disabled: false
       },
       data: [],
-      fontSize: 100
+      font: 10
+          // rotate: 'Horizontal',
+          // frequencySort: 'Most Frequent'
+      }
 
-      //other features
-    };
     this.setState(newState);
   }
 
@@ -150,7 +177,15 @@ class WordCloud extends React.Component {
               <a className="dropdown-item" href="#">Separated link</a>
             </div>
           </div>
+          <br></br>
 
+            <select class="selectpicker">
+              <option>Mustard</option>
+              <option>Ketchup</option>
+              <option>Relish</option>
+            </select>
+
+          <br></br>
 
         <div>
             <TagCloud
