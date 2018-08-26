@@ -9,6 +9,7 @@ class WordCloud extends React.Component {
         text: "",
         // other features state,
         // other features state,
+        data: []
       }
     };
 
@@ -18,12 +19,17 @@ class WordCloud extends React.Component {
   handleTextsSubmit(e) {
     e.preventDefault();
     let text = this.cleanTexts(this.state.texts.text)
-    console.log(text)
+    // console.log(text)
     this.generateCloud(text).then(() => {
         let newState = merge({}, this.state, { texts: { text: "" } });
         this.setState(newState);
     });
   }
+
+  generateCloud(str){
+    buildHash(str);
+
+  };
 
   updateTextsField() {
     return e => {
@@ -49,6 +55,9 @@ class WordCloud extends React.Component {
   render(){
     return (
       <div>
+        <TagCloud
+          data={data}
+        />
         <br></br>
           <textarea
             placeholder="Please paste your text here"
