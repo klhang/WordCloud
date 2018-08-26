@@ -27,9 +27,25 @@ class WordCloud extends React.Component {
   }
 
   generateCloud(str){
-    buildHash(str);
+    let arr = str.splice(" ");
+    let map = buildMap(arr);
+
+
 
   };
+
+  buildHash(arr){
+    map = {};
+    for (let i = 0; i < arr.length; i++){
+      let word = arr[i];
+      if (words in map){
+        map[words] = map[words] + 1;
+      } else {
+        map[words] = 1;
+      }
+    }
+    return map;
+  }
 
   updateTextsField() {
     return e => {
@@ -50,6 +66,7 @@ class WordCloud extends React.Component {
     // var punctuationless = s.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     // var finalString = punctuationless.replace(/\s{2,}/g," ");
   };
+
 
 
   render(){
