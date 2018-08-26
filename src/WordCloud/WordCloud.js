@@ -6,23 +6,42 @@ class WordCloud extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      texts: "",
+      textarea: {
+        text: "",
+        disabled: false
+      },
       data: [],
-      fontSize: 100,
+      fontSize: 100
 
       //other features
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
+    this.handleStartOver = this.handleStartOver.bind(this);
   }
 
   handleTextsSubmit(e) {
     e.preventDefault();
 
-    let texts = this.cleanTexts(this.state.texts);
+    let texts = this.cleanTexts(this.state.textarea.text);
     let tags = this.generateTags(texts);
     console.log(tags);
 
-    let newState = { texts: "" , data: tags };
+    let newState = {  textarea: {text: "please select animation", disabled: true}, data: tags };
+    this.setState(newState);
+  }
+
+  handleStartOver(e) {
+    e.preventDefault;
+    let newState = {
+      textarea: {
+        text: "",
+        disabled: false
+      },
+      data: [],
+      fontSize: 100
+
+      //other features
+    };
     this.setState(newState);
   }
 
@@ -68,7 +87,7 @@ class WordCloud extends React.Component {
 
   updateTextsField() {
     return e => {
-      let newState = { texts: e.target.value };
+      let newState = { textarea: {text: e.target.value} };
       this.setState(newState);
 
     };
@@ -88,10 +107,16 @@ class WordCloud extends React.Component {
           <textarea
             placeholder="Please paste your text here"
             onChange={this.updateTextsField()}
-            value={this.state.texts}
+            value={this.state.textarea.text}
+            disabled={this.state.textarea.disabled}
           />
+
         <button onClick={this.handleTextsSubmit}>
           <span>Submit</span>
+        </button>
+
+        <button onClick={this.handleStartOver}>
+          <span>Start Over</span>
         </button>
       </div>
      );
