@@ -8,9 +8,11 @@ const fontOptions = [
   { value: 20, label: '20' }
 ];
 const rotateOptions = [
-  { value: '0', label: '0°' },
-  { value: '45', label: '45°' },
-  { value: '-45', label: '-45°' }
+  { value: 0, label: '0°' },
+  { value: 30, label: '30°' },
+  { value: 45, label: '45°' },
+  { value: -30, label: '-30°' },
+  { value: -45, label: '-45°' }
 ];
 const frequencyOptions = [
   { value: 'Most Frequent', label: 'Most Frequent' },
@@ -28,14 +30,14 @@ class WordCloud extends React.Component {
       },
       data: [],
       font: 10,
-      // rotate:
+      rotate: 0,
           // rotate: 'Horizontal',
           // frequencySort: 'Most Frequent'
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
     this.handleFontOptions = this.handleFontOptions.bind(this);
-    // this.handleRotateOptions = this.handleRotateOptions.bind(this);
+    this.handleRotateOptions = this.handleRotateOptions.bind(this);
     // this.handleFrequencyOptions = this.handleFrequencyOptions.bind(this);
   }
 
@@ -43,18 +45,20 @@ class WordCloud extends React.Component {
     this.setState({font: font.value});
   }
 
-
+  handleRotateOptions = (rotate) => {
+    this.setState({rotate: rotate.value});
+  }
 
   fontSizeMapper(word) {
     return word.value * this.state.font;
   }
 
   rotate(word){
-    return -45;
+    return this.state.rotate;
   }
 
 
-  // const rotate = word => word.value % 360;
+
 
   handleTextsSubmit(e) {
     e.preventDefault();
@@ -134,6 +138,7 @@ class WordCloud extends React.Component {
 
   render(){
     const { font } = this.state.font;
+    const { rotate } = this.state.rotate;
 
 
 
@@ -143,6 +148,11 @@ class WordCloud extends React.Component {
           value={font}
           onChange={this.handleFontOptions}
           options={fontOptions}
+        />
+        <Select
+          value={rotate}
+          onChange={this.handleRotateOptions}
+          options={rotateOptions}
         />
 
         <br></br>
