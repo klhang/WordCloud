@@ -1,5 +1,4 @@
 import React from 'react';
-import merge from "lodash/merge";
 //import { render } from 'react-dom';
 import TagCloud from 'react-d3-cloud';
 
@@ -9,7 +8,8 @@ class WordCloud extends React.Component {
     this.state = {
       texts: "",
       data: [],
-      frontSize: 40
+      fontSize: 100,
+
       //other features
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
@@ -20,8 +20,9 @@ class WordCloud extends React.Component {
 
     let texts = this.cleanTexts(this.state.texts);
     let tags = this.generateTags(texts);
+    console.log(tags);
 
-    let newState = merge({}, this.state, { texts: "" , data: tags });
+    let newState = { texts: "" , data: tags };
     this.setState(newState);
   }
 
@@ -67,16 +68,11 @@ class WordCloud extends React.Component {
 
   updateTextsField() {
     return e => {
-      let newState = merge({}, this.state, { texts: e.target.value });
+      let newState = { texts: e.target.value };
       this.setState(newState);
+
     };
   }
-
-  // test(){
-  //   let newState = merge({}, this.state, {data: [{"text": "qqqqqqqqqq", "value": 50}, {"text": "BBBBBBBB", "value": 50}]});
-  //   this.setState(newState);
-  //   console.log(this.state.texts.data);
-  // }
 
   render(){
     return (
@@ -87,6 +83,7 @@ class WordCloud extends React.Component {
             fontSizeMapper={this.state.fontSize}
           />
         </div>
+
         <br></br>
           <textarea
             placeholder="Please paste your text here"
