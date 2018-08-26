@@ -1,6 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
-import WordCloud from 'react-d3-cloud';
+import TagCloud from 'react-d3-cloud';
+
+const generateCloud = (string) => {
+  let arr = string.slice();
+  let hash = buildHash(arr);
+
+}
+
+const buildHash = (arr) => {
+
+};
+
 
 const data = [
   { text: 'Hey', value: 1000 },
@@ -14,7 +25,7 @@ const fontSizeMapper = word => Math.log2(word.value) * 5;
 const rotate = word => word.value % 360;
 
 render(
-  <WordCloud
+  <TagCloud
     data={data}
     fontSizeMapper={fontSizeMapper}
     rotate={rotate}

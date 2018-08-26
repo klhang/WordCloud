@@ -5,7 +5,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <img className='logo' src={logo} alt='logo'></img>
         <div className='container'>
           <WordCloud />
         </div>
@@ -15,3 +14,4 @@ class App extends React.Component {
 }
 
 export default App;
+// <img className='logo' src={logo} alt='logo'></img>

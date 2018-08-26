@@ -1,8 +1,9 @@
 import React from 'react';
+import merge from "lodash/merge";
 
 class WordCloud extends React.Component {
-  constructor() {
-    // super(props);
+  constructor(props) {
+    super(props);
     this.state = {
       texts: {
         text: "",
@@ -16,9 +17,11 @@ class WordCloud extends React.Component {
 
   handleTextsSubmit(e) {
     e.preventDefault();
-    this.createTextsCloud(this.state.texts).then(() => {
-      let newState = merge({}, this.state, { texts: { text: "" } });
-      this.setState(newState);
+    let text = this.cleanTexts(this.state.texts.text)
+    console.log(text)
+    this.generateCloud(text).then(() => {
+        let newState = merge({}, this.state, { texts: { text: "" } });
+        this.setState(newState);
     });
   }
 
@@ -30,6 +33,18 @@ class WordCloud extends React.Component {
       this.setState(newState);
     };
   }
+
+  cleanTexts(str) {
+  	if (typeof str !== 'string') {
+  		throw new TypeError('Expected a string');
+  	}
+  	return str.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
+
+    // var s = "This., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation";
+    // var punctuationless = s.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    // var finalString = punctuationless.replace(/\s{2,}/g," ");
+  };
+
 
   render(){
     return (
@@ -46,5 +61,6 @@ class WordCloud extends React.Component {
       </div>
      );
   }
+}
 
 export default WordCloud;
