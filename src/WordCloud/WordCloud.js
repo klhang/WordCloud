@@ -126,7 +126,7 @@ class WordCloud extends React.Component {
     return map;
   }
 
-  updateTextsField() { //update text field when use type in words
+  updateTextsField() { //update text field when user type in words
     return e => {
       this.setState({ textarea: {text: e.target.value} });
     }
@@ -136,7 +136,7 @@ class WordCloud extends React.Component {
     this.setState({fontSize: fontSize.value});
   }
 
-  handleRotateOptions = (rotate) => { //handle font ratotion
+  handleRotateOptions = (rotate) => { //handle tag ratotion
     this.setState({rotate: rotate.value});
   }
 
@@ -144,7 +144,7 @@ class WordCloud extends React.Component {
     this.setState({data: this.state.data});
   }
 
-  handlePatternOptions = (pattern) => { //handle reverse pattern, showing the least frequent words
+  handlePatternOptions = (pattern) => { //handle reverse pattern, showing the least frequent words in bigger size
     let data = this.state.data;
     let maxWordCount = 0;
     let newOrder = this.state.inOrder;
