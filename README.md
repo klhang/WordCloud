@@ -1,7 +1,7 @@
 # TagCloud
 Generate TagClouds from input, with the bigger text represent frequency or significance of the word.
 
-![TagCloud1]()
+![TagCloud1](https://github.com/klhang/wordCloud/blob/master/public/tagcloud1.png)
 
 ## Live
 [http://www.datatagcloud.com/](http://www.datatagcloud.com/)
@@ -37,7 +37,7 @@ npm start
 6. Project is deployed to AWS ec2 instance with a unique domaine for public access
 7. Project repo is open to public with concise installation info and detail code comments
 
-![TagCloud2]()
+![TagCloud2](https://github.com/klhang/wordCloud/blob/master/public/tagcloud2.png)
 
 ## Stacks
 1. react
