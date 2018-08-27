@@ -16,9 +16,10 @@ const rotateOptions = [
   { value: -45, label: '-45°' }
 ];
 
-const frequencyOptions = [
+const pattenOptions = [
   { value: 'Most Frequent', label: 'Most Frequent' },
   { value: 'Least Frequent', label: 'Least Frequent' },
+  { value: 'Shuffle Position', label: 'Shuffle Position'}
 ];
 
 
@@ -33,12 +34,13 @@ class WordCloud extends React.Component {
       data: [],
       fontSize: 10,
       rotate: 0,
+      pattern: 'Most Frequent'
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
     this.handleFontSizeOptions = this.handleFontSizeOptions.bind(this);
     this.handleRotateOptions = this.handleRotateOptions.bind(this);
-    this.handleShuffel = this.handleShuffel.bind(this);
+    this.handlePatternOptions = this.handlePatternOptions.bind(this);
   }
 
   handleFontSizeOptions = (fontSize) => {
@@ -51,6 +53,23 @@ class WordCloud extends React.Component {
 
   handleShuffel= (data) => {
     this.setState({data: this.state.data});
+  }
+
+  handlePatternOptions = (pattern) => {
+    console.log(pattern)
+    let data = this.state.data;
+    for (let i = 0; i < data.length; i++){
+      if (pattern.value === 'Most Frequent'){
+        
+        data[i]['value'] = Math.abs(data[i]['value']);
+      } else if (pattern.value === 'Least Frequent'){
+        data[i]['value'] = data[i]['value'] > 0 ? 1000 - data[i]['value'] : data[i]['value'];
+      }
+    }
+    console.log(data.length)
+    console.log(data[0]["value"]);
+
+    this.setState({data: data});
   }
 
 
@@ -138,6 +157,7 @@ class WordCloud extends React.Component {
   render(){
     const { fontSize } = this.state.fontSize;
     const { rotate } = this.state.rotate;
+    const { pattern } = this.state.pattern;
 
 
     return (
@@ -151,6 +171,11 @@ class WordCloud extends React.Component {
           value={rotate}
           onChange={this.handleRotateOptions}
           options={rotateOptions}
+        />
+        <Select
+          value={pattern}
+          onChange={this.handlePatternOptions}
+          options={pattenOptions}
         />
 
 
@@ -176,7 +201,8 @@ class WordCloud extends React.Component {
           <button
             type="submit"
             className="btn btn-primary mb-2"
-            onClick={this.handleTextsSubmit}>
+            onClick={this.handleTextsSubmit}
+            disabled={this.state.textarea.disabled}>
             Submit
           </button>
           <br></br>
