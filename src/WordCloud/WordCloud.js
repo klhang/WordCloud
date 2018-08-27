@@ -35,7 +35,9 @@ class WordCloud extends React.Component {
       fontSize: 10,
       rotate: 0,
       pattern: 'Most Frequent',
-      inOrder: true
+      inOrder: true,
+      error: "",
+
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
@@ -47,14 +49,29 @@ class WordCloud extends React.Component {
   handleTextsSubmit = (e) => {
     e.preventDefault();
     let texts = this.cleanTexts(this.state.textarea.text);
-    let tags = this.generateTags(texts);
-    let initialFontSize;
+    let newState = {};
+    let error = "";
 
-    if (tags.length === 0{
-      throw //
-    }) else if (0 < tags.length <= 20){
+    if (this.validateInput(texts) === false){
+      error = 'Please provide at least 5 words.'
+      this.setState({ error: error});
+    } else {
+      newState = this.createData(texts);
+      this.setState(newState);
+    }
+  }
+
+  validateInput(texts){
+    return texts.length >= 5;
+  }
+
+  createData(texts){
+    let initialFontSize = 15;
+    let tags = this.generateTags(texts);
+
+    if (5 <= tags.length < 20){
       initialFontSize = 20;
-    } else if (20 < tags.length <= 40) {
+    } else if (tags.lenth < 40){
       initialFontSize = 15;
     } else {
       initialFontSize = 10;
@@ -62,9 +79,10 @@ class WordCloud extends React.Component {
 
     let newState = { textarea: {text: "please select animation", disabled: true},
                      data: tags,
-                     fontSize: initialFontSize
+                     fontSize: initialFontSize,
+                     error: ""
                    };
-    this.setState(newState);
+    return newState;
   }
 
   cleanTexts(str) {
@@ -199,6 +217,10 @@ class WordCloud extends React.Component {
               value={this.state.textarea.text}
               disabled={this.state.textarea.disabled}
             />
+          </div>
+
+          <div>
+            <strong>{this.state.error}</strong>
           </div>
           <button
             type="submit"
