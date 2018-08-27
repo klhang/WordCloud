@@ -18,8 +18,7 @@ const rotateOptions = [
 
 const pattenOptions = [
   { value: 'Most Frequent', label: 'Most Frequent' },
-  { value: 'Least Frequent', label: 'Least Frequent' },
-  { value: 'Shuffle Position', label: 'Shuffle Position'}
+  { value: 'Least Frequent', label: 'Least Frequent' }
 ];
 
 
@@ -57,37 +56,29 @@ class WordCloud extends React.Component {
   }
 
   handlePatternOptions = (pattern) => {
-    console.log(pattern)
-    console.log(this.state.inOrder)
     let data = this.state.data;
     let maxWordCount = 0;
     let newOrder = this.state.inOrder;
-
 
     for (let i = 0; i < data.length; i++){
       maxWordCount = Math.max(maxWordCount, Math.abs(data[i]['value']));
     }
     maxWordCount++;
-    console.log(maxWordCount);
-
 
     if (pattern.value === "Least Frequent" && this.state.inOrder === true){
       for (let i = 0; i < data.length; i++){
         data[i]['value'] = maxWordCount - data[i]['value'];
       }
       newOrder = false;
-      //this.setState({data: data, inOrder: newOrder});
-
     } else if (pattern.value === "Most Frequent" && this.state.inOrder === false){
       for (let i = 0; i < data.length; i++){
         data[i]['value'] = Math.abs(data[i]['value'] - maxWordCount);
       }
       newOrder = true;
-      //this.setState({data: data, inOrder: newOrder});
     }
     this.setState({data: data, inOrder: newOrder});
-    console.log(this.state.inOrder)
   }
+
 
 
 
@@ -231,21 +222,8 @@ class WordCloud extends React.Component {
           </button>
 
           <br></br>
-          <div className="btn-group">
-            <button type="button" className="btn btn-danger">Action</button>
-            <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span className="sr-only">Toggle Dropdown</span>
-            </button>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="#">Action</a>
-              <a className="dropdown-item" href="#">Another action</a>
-              <a className="dropdown-item" href="#">Something else here</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Separated link</a>
-            </div>
-          </div>
-          <br></br>
 
+          <br></br>
             <select class="selectpicker">
               <option>Mustard</option>
               <option>Ketchup</option>
@@ -259,8 +237,6 @@ class WordCloud extends React.Component {
               data={this.state.data}
               fontSizeMapper={this.fontSizeMapper.bind(this)}
               rotate={this.rotate.bind(this)}
-
-
             />
         </div>
       </div>
