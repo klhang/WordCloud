@@ -2,11 +2,12 @@ import React from 'react';
 import Select from 'react-select';
 import TagCloud from 'react-d3-cloud';
 
-const fontOptions = [
-  { value: 10, label: '10' },
-  { value: 15, label: '15' },
-  { value: 20, label: '20' }
+const fontSizeOptions = [
+  { value: 10, label: '10px' },
+  { value: 15, label: '15px' },
+  { value: 20, label: '20px' }
 ];
+
 const rotateOptions = [
   { value: 0, label: '0°' },
   { value: 30, label: '30°' },
@@ -14,6 +15,7 @@ const rotateOptions = [
   { value: -30, label: '-30°' },
   { value: -45, label: '-45°' }
 ];
+
 const frequencyOptions = [
   { value: 'Most Frequent', label: 'Most Frequent' },
   { value: 'Least Frequent', label: 'Least Frequent' },
@@ -29,28 +31,36 @@ class WordCloud extends React.Component {
         disabled: false
       },
       data: [],
-      font: 10,
+      fontSize: 10,
       rotate: 0,
-          // rotate: 'Horizontal',
-          // frequencySort: 'Most Frequent'
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
-    this.handleFontOptions = this.handleFontOptions.bind(this);
+    this.handleFontSizeOptions = this.handleFontSizeOptions.bind(this);
     this.handleRotateOptions = this.handleRotateOptions.bind(this);
-    // this.handleFrequencyOptions = this.handleFrequencyOptions.bind(this);
+    this.handleShuffel = this.handleShuffel.bind(this);
   }
 
-  handleFontOptions = (font) => {
-    this.setState({font: font.value});
+  handleFontSizeOptions = (fontSize) => {
+    this.setState({fontSize: fontSize.value});
   }
 
   handleRotateOptions = (rotate) => {
     this.setState({rotate: rotate.value});
   }
 
+  handleShuffel= (data) => {
+    this.setState({data: this.state.data});
+  }
+
+
+
+
+
+
+
   fontSizeMapper(word) {
-    return word.value * this.state.font;
+    return word.value * this.state.fontSize;
   }
 
   rotate(word){
@@ -60,31 +70,23 @@ class WordCloud extends React.Component {
 
 
 
-  handleTextsSubmit(e) {
-    e.preventDefault();
 
+  handleTextsSubmit = (e) => {
+    e.preventDefault();
     let texts = this.cleanTexts(this.state.textarea.text);
     let tags = this.generateTags(texts);
-    console.log(tags);
-
     let newState = { textarea: {text: "please select animation", disabled: true},
                      data: tags
                    };
     this.setState(newState);
   }
 
-  handleStartOver(e) {
+  handleStartOver = (e) => {
     e.preventDefault;
-    let newState = {
-      textarea: {
-        text: "",
-        disabled: false
-      },
-      data: [],
-      font: 10
-          // rotate: 'Horizontal',
-          // frequencySort: 'Most Frequent'
-      }
+    let newState = { textarea: {text: "",disabled: false},
+                     data: [],
+                     fontSize: 10
+                   }
     this.setState(newState);
   }
 
@@ -115,45 +117,42 @@ class WordCloud extends React.Component {
   buildFrequencyMap(str){
     let arr = str.split(" ");
     let map = {};
-
     for (let i = 0; i < arr.length; i++){
-      let word = arr[i];
-      if (word in map){
-        map[word] = map[word] + 1;
-      } else {
-        map[word] = 1;
-      }
+        let word = arr[i];
+        if (word in map){
+          map[word] = map[word] + 1;
+        } else {
+          map[word] = 1;
+        }
     }
-
     return map;
   }
 
-  updateTextsField(e) {
+  updateTextsField() {
     return e => {
-      this.setState({textarea: {text: e.target.value}} );
+      this.setState({ textarea: {text: e.target.value} });
     }
   }
 
 
-
   render(){
-    const { font } = this.state.font;
+    const { fontSize } = this.state.fontSize;
     const { rotate } = this.state.rotate;
-
 
 
     return (
       <div>
         <Select
-          value={font}
-          onChange={this.handleFontOptions}
-          options={fontOptions}
+          value={fontSize}
+          onChange={this.handleFontSizeOptions}
+          options={fontSizeOptions}
         />
         <Select
           value={rotate}
           onChange={this.handleRotateOptions}
           options={rotateOptions}
         />
+
 
         <br></br>
           <div className="form-group">
@@ -167,9 +166,12 @@ class WordCloud extends React.Component {
               disabled={this.state.textarea.disabled}
             />
           </div>
-
-
-
+          <button
+            type="submit"
+            className="btn btn-primary mb-2"
+            onClick={this.handleShuffel}>
+            Shuffle
+          </button>
 
           <button
             type="submit"
@@ -214,6 +216,8 @@ class WordCloud extends React.Component {
               data={this.state.data}
               fontSizeMapper={this.fontSizeMapper.bind(this)}
               rotate={this.rotate.bind(this)}
+
+
             />
         </div>
       </div>
