@@ -48,40 +48,39 @@ class WordCloud extends React.Component {
 
   handleTextsSubmit = (e) => {
     e.preventDefault();
-    let texts = this.cleanTexts(this.state.textarea.text);
-    let words = texts.split(" ");
+    let texts = this.cleanTexts(this.state.textarea.text).split(" ");
+    let uniqueWords = this.buildFrequencyMap(texts);
+    console.log(uniqueWords);
+
     let newState = {};
     let error = "";
 
-    if (this.validateInput(words) === false){
-      error = 'Please provide 20 to 120 words.'
+    if (this.validateInput(uniqueWords) === false){
+      error = Object.keys(uniqueWords).length + ' unique words detached, please provide 20 to 120 unique words.'
       this.setState({ error: error});
-      console.log("haha")
-    } else if (this.validateInput(words) === true){
-      newState = this.createData(words);
+
+    } else if (this.validateInput(uniqueWords) === true){
+      newState = this.createData(uniqueWords);
       this.setState(newState);
     }
   }
 
-  validateInput(words){
-    console.log(words.length)
-    if (20 < words.length && words.length<= 120) {
-      console.log('ok')
+  validateInput(uniqueWords){
+    let uniqueWordsCount = Object.keys(uniqueWords).length
+    if (20 <= uniqueWordsCount && uniqueWordsCount <= 150) {
       return true;
     } else {
       return false;
     }
-
   }
 
-  createData(words){
+  createData(uniqueWords){
     let initialFontSize = 15;
-    let tags = this.generateTags(words);
-    console.log(tags.length);
+    let tags = this.generateTags(uniqueWords);
 
     if (5 <= tags.length < 20){
       initialFontSize = 20;
-    } else if (tags.lenth < 40){
+    } else if (tags.length < 40){
       initialFontSize = 15;
     } else {
       initialFontSize = 10;
@@ -99,31 +98,38 @@ class WordCloud extends React.Component {
     if (typeof str !== 'string') {
       throw new TypeError('Expected a string');
     }
-    return str.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
+    str = str.replace(/[&\/\\#===,+\(\)$~%\.!^'"\;:*=?\[\]<>{}]/g, ' ');
+
+    return str;
+    // str.replace(/[^A-Za-z0-9]/g, ' ');
   };
 
-  generateTags(words){
-    let frequencyMap = this.buildFrequencyMap(words);
+  generateTags(uniqueWords){
+    // let frequencyMap = this.buildFrequencyMap(words);
     let tags = [];
 
-    Object.keys(frequencyMap).forEach(key => {
+    Object.keys(uniqueWords).forEach(key => {
       let tag = {"text"  : key,
-                 "value" : frequencyMap[key]};
+                 "value" : uniqueWords[key]};
       tags.push(tag);
     });
     return tags;
   };
 
-  buildFrequencyMap(words){
+  buildFrequencyMap(texts){
     let map = {};
-    for (let i = 0; i < words.length; i++){
-        let word = words[i];
+    for (let i = 0; i < texts.length; i++){
+        let word = texts[i];
+        if (word === ""){
+          continue;
+        }
         if (word in map){
           map[word] = map[word] + 1;
         } else {
           map[word] = 1;
         }
     }
+    console.log(Object.keys(map).length)
     return map;
   }
 
@@ -166,6 +172,7 @@ class WordCloud extends React.Component {
       }
       newOrder = true;
     }
+
     this.setState({data: data, inOrder: newOrder});
   }
 
