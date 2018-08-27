@@ -34,7 +34,8 @@ class WordCloud extends React.Component {
       data: [],
       fontSize: 10,
       rotate: 0,
-      pattern: 'Most Frequent'
+      pattern: 'Most Frequent',
+      inOrder: true
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
@@ -57,19 +58,35 @@ class WordCloud extends React.Component {
 
   handlePatternOptions = (pattern) => {
     console.log(pattern)
+    console.log(this.state.inOrder)
     let data = this.state.data;
-    for (let i = 0; i < data.length; i++){
-      if (pattern.value === 'Most Frequent'){
-        
-        data[i]['value'] = Math.abs(data[i]['value']);
-      } else if (pattern.value === 'Least Frequent'){
-        data[i]['value'] = data[i]['value'] > 0 ? 1000 - data[i]['value'] : data[i]['value'];
-      }
-    }
-    console.log(data.length)
-    console.log(data[0]["value"]);
+    let maxWordCount = 0;
+    let newOrder = this.state.inOrder;
 
-    this.setState({data: data});
+
+    for (let i = 0; i < data.length; i++){
+      maxWordCount = Math.max(maxWordCount, Math.abs(data[i]['value']));
+    }
+    maxWordCount++;
+    console.log(maxWordCount);
+
+
+    if (pattern.value === "Least Frequent" && this.state.inOrder === true){
+      for (let i = 0; i < data.length; i++){
+        data[i]['value'] = maxWordCount - data[i]['value'];
+      }
+      newOrder = false;
+      //this.setState({data: data, inOrder: newOrder});
+
+    } else if (pattern.value === "Most Frequent" && this.state.inOrder === false){
+      for (let i = 0; i < data.length; i++){
+        data[i]['value'] = Math.abs(data[i]['value'] - maxWordCount);
+      }
+      newOrder = true;
+      //this.setState({data: data, inOrder: newOrder});
+    }
+    this.setState({data: data, inOrder: newOrder});
+    console.log(this.state.inOrder)
   }
 
 
