@@ -214,7 +214,8 @@ class WordCloud extends React.Component {
       <div className="container">
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="navbar-brand brand-sm" >
-            <h2 class="text-primary">TagCloud</h2>
+            <h6 className="font-weight-light"><a href="https://github.com/klhang/wordCloud" target="_blank" >Github Repo</a></h6>
+            <h1 className="text-primary">TagCloud</h1>
           </div>
         </nav>
 

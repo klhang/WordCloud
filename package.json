@@ -10,6 +10,7 @@
     "react": "^16.4.2",
     "react-d3-cloud": "^0.6.0",
     "react-dom": "^16.4.2",
+    "react-download-svg": "0.0.4",
     "react-scripts": "1.1.5",
     "react-select": "^2.0.0"
   },
