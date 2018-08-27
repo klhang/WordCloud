@@ -49,25 +49,35 @@ class WordCloud extends React.Component {
   handleTextsSubmit = (e) => {
     e.preventDefault();
     let texts = this.cleanTexts(this.state.textarea.text);
+    let words = texts.split(" ");
     let newState = {};
     let error = "";
 
-    if (this.validateInput(texts) === false){
-      error = 'Please provide at least 5 words.'
+    if (this.validateInput(words) === false){
+      error = 'Please provide 20 to 120 words.'
       this.setState({ error: error});
-    } else {
-      newState = this.createData(texts);
+      console.log("haha")
+    } else if (this.validateInput(words) === true){
+      newState = this.createData(words);
       this.setState(newState);
     }
   }
 
-  validateInput(texts){
-    return texts.length >= 5;
+  validateInput(words){
+    console.log(words.length)
+    if (20 < words.length && words.length<= 120) {
+      console.log('ok')
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
-  createData(texts){
+  createData(words){
     let initialFontSize = 15;
-    let tags = this.generateTags(texts);
+    let tags = this.generateTags(words);
+    console.log(tags.length);
 
     if (5 <= tags.length < 20){
       initialFontSize = 20;
@@ -92,8 +102,8 @@ class WordCloud extends React.Component {
     return str.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
   };
 
-  generateTags(str){
-    let frequencyMap = this.buildFrequencyMap(str);
+  generateTags(words){
+    let frequencyMap = this.buildFrequencyMap(words);
     let tags = [];
 
     Object.keys(frequencyMap).forEach(key => {
@@ -104,11 +114,10 @@ class WordCloud extends React.Component {
     return tags;
   };
 
-  buildFrequencyMap(str){
-    let arr = str.split(" ");
+  buildFrequencyMap(words){
     let map = {};
-    for (let i = 0; i < arr.length; i++){
-        let word = arr[i];
+    for (let i = 0; i < words.length; i++){
+        let word = words[i];
         if (word in map){
           map[word] = map[word] + 1;
         } else {
