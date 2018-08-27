@@ -121,7 +121,7 @@ class WordCloud extends React.Component {
     for (let i = 0; i < texts.length; i++){
         let word = texts[i];
         console.log(typeof word)
-        if (word.length <= 1 || isNaN(word) === false){
+        if (word.length <= 1 || isNaN(word) === false ){
           continue;
         }
         if (word in map){
@@ -179,7 +179,7 @@ class WordCloud extends React.Component {
   handleDemo = (e) => {
     e.preventDefault;
     let data = require('./Demo/data.json');
-    let newState = { textarea: {text: "",disabled: true},
+    let newState = { textarea: {text: "please select animation",disabled: true},
                      data: data,
                      fontSize: 15,
                      rotate: -30,
@@ -220,71 +220,96 @@ class WordCloud extends React.Component {
 
 
     return (
-      <div>
-        <Select
-          value={fontSize}
-          onChange={this.handleFontSizeOptions}
-          options={fontSizeOptions}
-        />
-        <Select
-          value={rotate}
-          onChange={this.handleRotateOptions}
-          options={rotateOptions}
-        />
-        <Select
-          value={pattern}
-          onChange={this.handlePatternOptions}
-          options={pattenOptions}
-        />
-
-
-        <br></br>
-          <div className="form-group">
-            <label >Comment:</label>
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="Please paste your text here"
-              onChange={this.updateTextsField()}
-              value={this.state.textarea.text}
-              disabled={this.state.textarea.disabled}
-            />
+      <div className="container">
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="navbar-brand brand-sm" >
+            <span className='brand-sm'>TagCloud</span>
           </div>
+        </nav>
 
-          <div>
-            <strong>{this.state.error}</strong>
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary mb-2"
-            onClick={this.handleShuffel}>
-            Shuffle
-          </button>
-            <br></br>
-
-          <button
-            type="submit"
-            className="btn btn-primary mb-2"
-            onClick={this.handleTextsSubmit}
-            disabled={this.state.textarea.disabled}>
-            Submit
-          </button>
-          <br></br>
-          <button
-            type="submit"
-            className="btn btn-primary mb-2"
-            onClick={this.handleStartOver}>
-            Start Over
-          </button>
-
-          <br></br>
 
         <div>
-            <TagCloud
-              data={this.state.data}
-              fontSizeMapper={this.fontSizeMapper.bind(this)}
-              rotate={this.rotate.bind(this)}
+            <div className="form-group">
+              <label >Comment:</label>
+              <textarea
+                className="form-control"
+                rows="5"
+                placeholder="Please paste your text here"
+                onChange={this.updateTextsField()}
+                value={this.state.textarea.text}
+                disabled={this.state.textarea.disabled}
+              />
+            </div>
+
+            <div>
+              <strong>{this.state.error}</strong>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="btn btn-primary mb-2"
+                onClick={this.handleShuffel}>
+                Shuffle
+              </button>
+              <br></br>
+
+              <button
+                type="submit"
+                className="btn btn-primary mb-2"
+                onClick={this.handleTextsSubmit}
+                disabled={this.state.textarea.disabled}>
+                Submit
+              </button>
+              <br></br>
+
+              <button
+                type="submit"
+                className="btn btn-primary mb-2"
+                onClick={this.handleStartOver}>
+                Start Over
+              </button>
+              <br></br>
+
+              <button
+                type="submit"
+                className="btn btn-primary mb-2"
+                onClick={this.handleDemo}>
+                Demo
+              </button>
+            </div>
+            <br></br>
+
+            FontSize Options:
+            <Select
+              value={fontSize}
+              onChange={this.handleFontSizeOptions}
+              options={fontSizeOptions}
             />
+          <br></br>
+
+            Rotate Options:
+            <Select
+              value={rotate}
+              onChange={this.handleRotateOptions}
+              options={rotateOptions}
+            />
+          <br></br>
+
+          Pattern Options:
+            <Select
+              value={pattern}
+              onChange={this.handlePatternOptions}
+              options={pattenOptions}
+            />
+
+          <div>
+              <TagCloud
+                data={this.state.data}
+                fontSizeMapper={this.fontSizeMapper.bind(this)}
+                rotate={this.rotate.bind(this)}
+              />
+          </div>
         </div>
       </div>
      );
