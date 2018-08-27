@@ -20,18 +20,18 @@ npm start
 1. User can submit texts and generate tag clouds
 2. User can also see the effect of animation for the cloud by clicking demo
 3. Animation options include:
-   a. change of font size: 10px, 15px, 20px
-   b. rotation of the cloud: -45°, -30°, 0°, 30°, 45°
-   c. pattern by frequency: most frequent, least frequent
-   d. shuffle positions of words in the cloud
+   * change of font size: 10px, 15px, 20px
+   * rotation of the cloud: -45°, -30°, 0°, 30°, 45°
+   * pattern by frequency: most frequent, least frequent
+   * shuffle positions of words in the cloud
 4. Validation for input is implemented to check if there is enough unique words provided, restrictions include:
-   a. the amount of unique words should be between 20 - 120
-   b. numbers and punctuations are not consider valid
-   c. single letter is not considered valid
-   d. empty space is not considered valid
+   * the amount of unique words should be between 20 - 120
+   * numbers and punctuations are not consider valid
+   * single letter is not considered valid
+   * empty space is not considered valid
 5. Algorithm to auto select initial font size for cloud generation based on unique word count of the input to achieve better visual effect
-  a. auto select font size of 10px if word count > 100
-  b. auto select font size of 20px if word count < 40
+   * auto select font size of 10px if word count > 100
+   * auto select font size of 20px if word count < 40
 6. Project is deployed to AWS ec2 instance with a unique domaine for public access
 7. Project repo is open to public with concise installation info and detail code comments
 
