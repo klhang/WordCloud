@@ -231,7 +231,7 @@ class WordCloud extends React.Component {
               />
             </div>
 
-            <p class="text-danger">{this.state.error}</p>
+            <p className="text-danger">{this.state.error}</p>
             <br></br>
 
             <div>
@@ -263,7 +263,7 @@ class WordCloud extends React.Component {
             </div>
 
             <br></br>
-            <p class="text-primary">FontSize Options:</p>
+            <p className="text-primary">FontSize Options:</p>
             <Select
               value={fontSize}
               onChange={this.handleFontSizeOptions}
@@ -271,7 +271,7 @@ class WordCloud extends React.Component {
             />
 
             <br></br>
-            <p class="text-primary">Rotate Options:</p>
+            <p className="text-primary">Rotate Options:</p>
             <Select
               value={rotate}
               onChange={this.handleRotateOptions}
@@ -279,7 +279,7 @@ class WordCloud extends React.Component {
             />
 
             <br></br>
-            <p class="text-primary">Patter Options:</p>
+            <p className="text-primary">Patter Options:</p>
             <Select
               value={pattern}
               onChange={this.handlePatternOptions}
