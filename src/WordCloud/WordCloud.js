@@ -279,7 +279,7 @@ class WordCloud extends React.Component {
             />
 
             <br></br>
-            <p className="text-primary">Patter Options:</p>
+            <p className="text-primary">Pattern Options:</p>
             <Select
               value={pattern}
               onChange={this.handlePatternOptions}
