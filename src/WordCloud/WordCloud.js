@@ -23,6 +23,8 @@ const pattenOptions = [
 ];
 
 
+
+
 class WordCloud extends React.Component {
   constructor(props) {
     super(props);
@@ -44,24 +46,22 @@ class WordCloud extends React.Component {
     this.handleFontSizeOptions = this.handleFontSizeOptions.bind(this);
     this.handleRotateOptions = this.handleRotateOptions.bind(this);
     this.handlePatternOptions = this.handlePatternOptions.bind(this);
+    this.handleDemo = this.handleDemo.bind(this);
   }
 
   handleTextsSubmit = (e) => {
     e.preventDefault();
     let texts = this.cleanTexts(this.state.textarea.text).split(" ");
     let uniqueWords = this.buildFrequencyMap(texts);
-    console.log(uniqueWords);
-
     let newState = {};
     let error = "";
 
-    if (this.validateInput(uniqueWords) === false){
-      error = Object.keys(uniqueWords).length + ' unique words detached, please provide 20 to 120 unique words.'
-      this.setState({ error: error});
-
-    } else if (this.validateInput(uniqueWords) === true){
+    if (this.validateInput(uniqueWords) === true){
       newState = this.createData(uniqueWords);
       this.setState(newState);
+    } else if (this.validateInput(uniqueWords) === false){
+      error = Object.keys(uniqueWords).length + ' unique words identified, please provide 20 to 120 unique words.'
+      this.setState({ error: error});
     }
   }
 
@@ -77,6 +77,7 @@ class WordCloud extends React.Component {
   createData(uniqueWords){
     let initialFontSize = 15;
     let tags = this.generateTags(uniqueWords);
+        console.log(tags);
 
     if (5 <= tags.length < 20){
       initialFontSize = 20;
@@ -175,6 +176,22 @@ class WordCloud extends React.Component {
     this.setState({data: data, inOrder: newOrder});
   }
 
+  handleDemo = (e) => {
+    e.preventDefault;
+    let data = require('./Demo/data.json');
+    let newState = { textarea: {text: "",disabled: true},
+                     data: data,
+                     fontSize: 15,
+                     rotate: -30,
+                     pattern: 'Most Frequent',
+                     inOrder: true
+                   }
+    this.setState(newState);
+  }
+
+
+
+
   handleStartOver = (e) => {
     e.preventDefault;
     let newState = { textarea: {text: "",disabled: false},
@@ -243,6 +260,7 @@ class WordCloud extends React.Component {
             onClick={this.handleShuffel}>
             Shuffle
           </button>
+            <br></br>
 
           <button
             type="submit"
@@ -258,15 +276,6 @@ class WordCloud extends React.Component {
             onClick={this.handleStartOver}>
             Start Over
           </button>
-
-          <br></br>
-
-          <br></br>
-            <select class="selectpicker">
-              <option>Mustard</option>
-              <option>Ketchup</option>
-              <option>Relish</option>
-            </select>
 
           <br></br>
 
