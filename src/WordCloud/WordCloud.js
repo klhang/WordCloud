@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import TagCloud from 'react-d3-cloud';
 
-
+//animation options
 const fontSizeOptions = [
   { value: 10, label: '10px' },
   { value: 15, label: '15px' },
@@ -31,12 +31,12 @@ class WordCloud extends React.Component {
         text: "",
         disabled: false
       },
-      data: [],
-      fontSize: 10,
-      rotate: 0,
-      pattern: 'Most Frequent',
-      inOrder: true,
-      error: "",
+      data: [], //data for d3 to generate cloud
+      fontSize: 10,  //font size of the cloud
+      rotate: 0,  // initial ratotae degree
+      pattern: 'Most Frequent', //initial pattern
+      inOrder: true, //the tags are initially sorted in descending order
+      error: "", //error for input validation
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
@@ -48,16 +48,16 @@ class WordCloud extends React.Component {
 
   handleTextsSubmit = (e) => {
     e.preventDefault();
-    let texts = this.cleanTexts(this.state.textarea.text).split(" ");
-    let uniqueWords = this.buildFrequencyMap(texts);
+    let texts = this.cleanTexts(this.state.textarea.text).split(" ");  //first clean the texts by removing putuations, sigle letter and numbers
+    let uniqueWords = this.buildFrequencyMap(texts); //build a frequecy map with value being the times of appearence of a word
     let newState = {};
     let error = "";
 
-    if (this.validateInput(uniqueWords) === true){
-      newState = this.createData(uniqueWords);
+    if (this.validateInput(uniqueWords) === true){ //validate the input by checking the unique words
+      newState = this.createData(uniqueWords); //if pass validation, then create cloud using the frequecy map
       this.setState(newState);
     } else if (this.validateInput(uniqueWords) === false){
-      error = Object.keys(uniqueWords).length + ' unique words identified, please provide 20 to 120 unique words.'
+      error = Object.keys(uniqueWords).length + ' unique words identified, please provide 20 to 120 unique words.' //show error for user
       this.setState({ error: error});
     }
   }
@@ -75,7 +75,7 @@ class WordCloud extends React.Component {
     let initialFontSize = 15;
     let tags = this.generateTags(uniqueWords);
 
-    if (5 <= tags.length < 20){
+    if (5 <= tags.length < 20){ //adapt to different initial font size for different amount of words
       initialFontSize = 20;
     } else if (tags.length < 40){
       initialFontSize = 15;
@@ -91,7 +91,7 @@ class WordCloud extends React.Component {
     return newState;
   }
 
-  cleanTexts(str) {
+  cleanTexts(str) { //clean text using regular expression
     if (typeof str !== 'string') {
       throw new TypeError('Expected a string');
     }
@@ -99,7 +99,7 @@ class WordCloud extends React.Component {
     return str;
   };
 
-  generateTags(uniqueWords){
+  generateTags(uniqueWords){ //generate tag from the frequecy map
     let tags = [];
     Object.keys(uniqueWords).forEach(key => {
       let tag = {"text"  : key,
@@ -109,7 +109,7 @@ class WordCloud extends React.Component {
     return tags;
   };
 
-  buildFrequencyMap(texts){
+  buildFrequencyMap(texts){ //building frequecy map by counting the times a word appear
     let map = {};
     for (let i = 0; i < texts.length; i++){
         let word = texts[i];
@@ -126,25 +126,25 @@ class WordCloud extends React.Component {
     return map;
   }
 
-  updateTextsField() {
+  updateTextsField() { //update text field when use type in words
     return e => {
       this.setState({ textarea: {text: e.target.value} });
     }
   }
 
-  handleFontSizeOptions = (fontSize) => {
+  handleFontSizeOptions = (fontSize) => { //handle font size change
     this.setState({fontSize: fontSize.value});
   }
 
-  handleRotateOptions = (rotate) => {
+  handleRotateOptions = (rotate) => { //handle font ratotion
     this.setState({rotate: rotate.value});
   }
 
-  handleShuffel= (data) => {
+  handleShuffel= (data) => { //handle shuffle, so user can get a new cloud with words in different positions
     this.setState({data: this.state.data});
   }
 
-  handlePatternOptions = (pattern) => {
+  handlePatternOptions = (pattern) => { //handle reverse pattern, showing the least frequent words
     let data = this.state.data;
     let maxWordCount = 0;
     let newOrder = this.state.inOrder;
@@ -169,7 +169,7 @@ class WordCloud extends React.Component {
     this.setState({data: data, inOrder: newOrder});
   }
 
-  handleDemo = (e) => {
+  handleDemo = (e) => { // handle demo option
     e.preventDefault;
     let data = require('./Demo/data.json');
     let newState = { textarea: {text: "Please select animation",disabled: true},
@@ -183,7 +183,7 @@ class WordCloud extends React.Component {
     this.setState(newState);
   }
 
-  handleStartOver = (e) => {
+  handleStartOver = (e) => { //handle start over
     e.preventDefault;
     let newState = { textarea: {text: "",disabled: false},
                      data: [],
@@ -196,11 +196,11 @@ class WordCloud extends React.Component {
     this.setState(newState);
   }
 
-  fontSizeMapper(word) {
+  fontSizeMapper(word) { //map to fontsize of the cloud
     return word.value * this.state.fontSize;
   }
 
-  rotate(word){
+  rotate(word){ // map to rotation degree of the cloud
     return this.state.rotate;
   }
 
