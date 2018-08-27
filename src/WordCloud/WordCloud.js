@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import TagCloud from 'react-d3-cloud';
 
+
 const fontSizeOptions = [
   { value: 10, label: '10px' },
   { value: 15, label: '15px' },
@@ -43,6 +44,68 @@ class WordCloud extends React.Component {
     this.handlePatternOptions = this.handlePatternOptions.bind(this);
   }
 
+  handleTextsSubmit = (e) => {
+    e.preventDefault();
+    let texts = this.cleanTexts(this.state.textarea.text);
+    let tags = this.generateTags(texts);
+    let initialFontSize;
+
+    if (tags.length === 0{
+      throw //
+    }) else if (0 < tags.length <= 20){
+      initialFontSize = 20;
+    } else if (20 < tags.length <= 40) {
+      initialFontSize = 15;
+    } else {
+      initialFontSize = 10;
+    }
+
+    let newState = { textarea: {text: "please select animation", disabled: true},
+                     data: tags,
+                     fontSize: initialFontSize
+                   };
+    this.setState(newState);
+  }
+
+  cleanTexts(str) {
+    if (typeof str !== 'string') {
+      throw new TypeError('Expected a string');
+    }
+    return str.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
+  };
+
+  generateTags(str){
+    let frequencyMap = this.buildFrequencyMap(str);
+    let tags = [];
+
+    Object.keys(frequencyMap).forEach(key => {
+      let tag = {"text"  : key,
+                 "value" : frequencyMap[key]};
+      tags.push(tag);
+    });
+    return tags;
+  };
+
+  buildFrequencyMap(str){
+    let arr = str.split(" ");
+    let map = {};
+    for (let i = 0; i < arr.length; i++){
+        let word = arr[i];
+        if (word in map){
+          map[word] = map[word] + 1;
+        } else {
+          map[word] = 1;
+        }
+    }
+    return map;
+  }
+
+  updateTextsField() {
+    return e => {
+      this.setState({ textarea: {text: e.target.value} });
+    }
+  }
+
   handleFontSizeOptions = (fontSize) => {
     this.setState({fontSize: fontSize.value});
   }
@@ -79,12 +142,17 @@ class WordCloud extends React.Component {
     this.setState({data: data, inOrder: newOrder});
   }
 
-
-
-
-
-
-
+  handleStartOver = (e) => {
+    e.preventDefault;
+    let newState = { textarea: {text: "",disabled: false},
+                     data: [],
+                     fontSize: 10,
+                     rotate: 0,
+                     pattern: 'Most Frequent',
+                     inOrder: true
+                   }
+    this.setState(newState);
+  }
 
   fontSizeMapper(word) {
     return word.value * this.state.fontSize;
@@ -92,73 +160,6 @@ class WordCloud extends React.Component {
 
   rotate(word){
     return this.state.rotate;
-  }
-
-
-
-
-
-  handleTextsSubmit = (e) => {
-    e.preventDefault();
-    let texts = this.cleanTexts(this.state.textarea.text);
-    let tags = this.generateTags(texts);
-    let newState = { textarea: {text: "please select animation", disabled: true},
-                     data: tags
-                   };
-    this.setState(newState);
-  }
-
-  handleStartOver = (e) => {
-    e.preventDefault;
-    let newState = { textarea: {text: "",disabled: false},
-                     data: [],
-                     fontSize: 10
-                   }
-    this.setState(newState);
-  }
-
-  cleanTexts(str) {
-    if (typeof str !== 'string') {
-      throw new TypeError('Expected a string');
-    }
-    return str.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
-
-    // var s = "This., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation";
-    // var punctuationless = s.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-    // var finalString = punctuationless.replace(/\s{2,}/g," ");
-  };
-
-  generateTags(str){
-    let frequencyMap = this.buildFrequencyMap(str);
-    let tags = [];
-
-    Object.keys(frequencyMap).forEach(key => {
-      let tag = {"text"  : key,
-                 "value" : frequencyMap[key]};
-      tags.push(tag);
-    });
-
-    return tags;
-  };
-
-  buildFrequencyMap(str){
-    let arr = str.split(" ");
-    let map = {};
-    for (let i = 0; i < arr.length; i++){
-        let word = arr[i];
-        if (word in map){
-          map[word] = map[word] + 1;
-        } else {
-          map[word] = 1;
-        }
-    }
-    return map;
-  }
-
-  updateTextsField() {
-    return e => {
-      this.setState({ textarea: {text: e.target.value} });
-    }
   }
 
 
