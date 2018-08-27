@@ -23,8 +23,6 @@ const pattenOptions = [
 ];
 
 
-
-
 class WordCloud extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +37,6 @@ class WordCloud extends React.Component {
       pattern: 'Most Frequent',
       inOrder: true,
       error: "",
-
     };
     this.handleTextsSubmit = this.handleTextsSubmit.bind(this);
     this.handleStartOver = this.handleStartOver.bind(this);
@@ -77,7 +74,6 @@ class WordCloud extends React.Component {
   createData(uniqueWords){
     let initialFontSize = 15;
     let tags = this.generateTags(uniqueWords);
-        console.log(tags);
 
     if (5 <= tags.length < 20){
       initialFontSize = 20;
@@ -87,7 +83,7 @@ class WordCloud extends React.Component {
       initialFontSize = 10;
     }
 
-    let newState = { textarea: {text: "please select animation", disabled: true},
+    let newState = { textarea: {text: "Please select animation", disabled: true},
                      data: tags,
                      fontSize: initialFontSize,
                      error: ""
@@ -100,14 +96,11 @@ class WordCloud extends React.Component {
       throw new TypeError('Expected a string');
     }
     str = str.replace(/[&\/\\#===,+\(\)$~%\.!^'"\;:*=?\[\]<>{}]/g, ' ');
-
     return str;
   };
 
   generateTags(uniqueWords){
-    // let frequencyMap = this.buildFrequencyMap(words);
     let tags = [];
-
     Object.keys(uniqueWords).forEach(key => {
       let tag = {"text"  : key,
                  "value" : uniqueWords[key]};
@@ -179,18 +172,16 @@ class WordCloud extends React.Component {
   handleDemo = (e) => {
     e.preventDefault;
     let data = require('./Demo/data.json');
-    let newState = { textarea: {text: "please select animation",disabled: true},
+    let newState = { textarea: {text: "Please select animation",disabled: true},
                      data: data,
                      fontSize: 15,
                      rotate: -30,
                      pattern: 'Most Frequent',
-                     inOrder: true
+                     inOrder: true,
+                     error: ""
                    }
     this.setState(newState);
   }
-
-
-
 
   handleStartOver = (e) => {
     e.preventDefault;
@@ -199,7 +190,8 @@ class WordCloud extends React.Component {
                      fontSize: 10,
                      rotate: 0,
                      pattern: 'Most Frequent',
-                     inOrder: true
+                     inOrder: true,
+                     error: ""
                    }
     this.setState(newState);
   }
@@ -218,19 +210,16 @@ class WordCloud extends React.Component {
     const { rotate } = this.state.rotate;
     const { pattern } = this.state.pattern;
 
-
     return (
       <div className="container">
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="navbar-brand brand-sm" >
-            <span className='brand-sm'>TagCloud</span>
+            <h2 class="text-primary">TagCloud</h2>
           </div>
         </nav>
 
-
         <div>
             <div className="form-group">
-              <label >Comment:</label>
               <textarea
                 className="form-control"
                 rows="5"
@@ -241,16 +230,16 @@ class WordCloud extends React.Component {
               />
             </div>
 
-            <div>
-              <strong>{this.state.error}</strong>
-            </div>
+            <p class="text-danger">{this.state.error}</p>
+            <br></br>
 
             <div>
               <button
                 type="submit"
                 className="btn btn-primary mb-2"
-                onClick={this.handleShuffel}>
-                Shuffle
+                onClick={this.handleDemo}
+                disabled={this.state.textarea.disabled}>
+                Demo
               </button>
               <br></br>
 
@@ -270,46 +259,48 @@ class WordCloud extends React.Component {
                 Start Over
               </button>
               <br></br>
-
-              <button
-                type="submit"
-                className="btn btn-primary mb-2"
-                onClick={this.handleDemo}>
-                Demo
-              </button>
             </div>
-            <br></br>
 
-            FontSize Options:
+            <br></br>
+            <p class="text-primary">FontSize Options:</p>
             <Select
               value={fontSize}
               onChange={this.handleFontSizeOptions}
               options={fontSizeOptions}
             />
-          <br></br>
 
-            Rotate Options:
+            <br></br>
+            <p class="text-primary">Rotate Options:</p>
             <Select
               value={rotate}
               onChange={this.handleRotateOptions}
               options={rotateOptions}
             />
-          <br></br>
 
-          Pattern Options:
+            <br></br>
+            <p class="text-primary">Patter Options:</p>
             <Select
               value={pattern}
               onChange={this.handlePatternOptions}
               options={pattenOptions}
             />
+            <br></br>
 
-          <div>
+            <button
+              type="submit"
+              className="btn btn-primary mb-2"
+              onClick={this.handleShuffel}>
+              Shuffle
+            </button>
+            <br></br>
+
+            <div>
               <TagCloud
                 data={this.state.data}
                 fontSizeMapper={this.fontSizeMapper.bind(this)}
                 rotate={this.rotate.bind(this)}
               />
-          </div>
+            </div>
         </div>
       </div>
      );
