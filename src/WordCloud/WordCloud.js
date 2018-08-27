@@ -101,7 +101,6 @@ class WordCloud extends React.Component {
     str = str.replace(/[&\/\\#===,+\(\)$~%\.!^'"\;:*=?\[\]<>{}]/g, ' ');
 
     return str;
-    // str.replace(/[^A-Za-z0-9]/g, ' ');
   };
 
   generateTags(uniqueWords){
@@ -120,7 +119,8 @@ class WordCloud extends React.Component {
     let map = {};
     for (let i = 0; i < texts.length; i++){
         let word = texts[i];
-        if (word === ""){
+        console.log(typeof word)
+        if (word.length <= 1 || isNaN(word) === false){
           continue;
         }
         if (word in map){
@@ -129,7 +129,6 @@ class WordCloud extends React.Component {
           map[word] = 1;
         }
     }
-    console.log(Object.keys(map).length)
     return map;
   }
 
