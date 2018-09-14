@@ -47,3 +47,4 @@ npm start
 2. Upload photo to be the appearence pattern of the tag cloud
 3. Social media sharing of the tag cloud
 4. More animation options
+5. Integrated with Jekins for continuous integration in future development

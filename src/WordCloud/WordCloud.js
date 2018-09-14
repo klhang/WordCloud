@@ -44,6 +44,7 @@ class WordCloud extends React.Component {
     this.handleRotateOptions = this.handleRotateOptions.bind(this);
     this.handlePatternOptions = this.handlePatternOptions.bind(this);
     this.handleDemo = this.handleDemo.bind(this);
+    this.updateTextsField = this.updateTextsField.bind(this);
   }
 
   handleTextsSubmit = (e) => {
@@ -126,10 +127,14 @@ class WordCloud extends React.Component {
     return map;
   }
 
-  updateTextsField() { //update text field when user type in words
-    return e => {
-      this.setState({ textarea: {text: e.target.value} });
-    }
+  // updateTextsField() { //update text field when user type in words
+  //   return e => {
+  //     this.setState({ textarea: {text: e.target.value} });
+  //   }
+  // }
+
+  updateTextsField = (e) => {
+    this.setState({textarea: {text: e.target.value}});
   }
 
   handleFontSizeOptions = (fontSize) => { //handle font size change
@@ -225,7 +230,7 @@ class WordCloud extends React.Component {
                 className="form-control"
                 rows="5"
                 placeholder="Please paste your text here"
-                onChange={this.updateTextsField()}
+                onChange={this.updateTextsField}
                 value={this.state.textarea.text}
                 disabled={this.state.textarea.disabled}
               />
